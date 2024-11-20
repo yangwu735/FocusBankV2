@@ -11,6 +11,7 @@
 		2F169CA42CE44A8B00A60E76 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 2F169CA32CE44A8B00A60E76 /* FirebaseAnalyticsOnDeviceConversion */; };
 		2F169CA62CE44A8B00A60E76 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 2F169CA52CE44A8B00A60E76 /* FirebaseAppCheck */; };
 		2F169CA82CE44A8B00A60E76 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 2F169CA72CE44A8B00A60E76 /* FirebaseAppDistribution-Beta */; };
+		2FF8D86E2CED6775006E8674 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF8D86D2CED6775006E8674 /* AuthenticationServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 		2F169C682CE4393700A60E76 /* FocusBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F169C7C2CE4393A00A60E76 /* FocusBankTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusBankTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F169C862CE4393A00A60E76 /* FocusBankUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusBankUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FF8D86D2CED6775006E8674 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/AuthenticationServices.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -73,6 +75,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F169CA22CE44A8B00A60E76 /* FirebaseAnalytics in Frameworks */,
+				2FF8D86E2CED6775006E8674 /* AuthenticationServices.framework in Frameworks */,
 				2F169CA62CE44A8B00A60E76 /* FirebaseAppCheck in Frameworks */,
 				2F169CA42CE44A8B00A60E76 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				2F169CA82CE44A8B00A60E76 /* FirebaseAppDistribution-Beta in Frameworks */,
@@ -102,6 +105,7 @@
 				2F169C6A2CE4393700A60E76 /* FocusBank */,
 				2F169C7F2CE4393A00A60E76 /* FocusBankTests */,
 				2F169C892CE4393A00A60E76 /* FocusBankUITests */,
+				2FF8D86C2CED6774006E8674 /* Frameworks */,
 				2F169C692CE4393700A60E76 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,6 +118,14 @@
 				2F169C862CE4393A00A60E76 /* FocusBankUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2FF8D86C2CED6774006E8674 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FF8D86D2CED6775006E8674 /* AuthenticationServices.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

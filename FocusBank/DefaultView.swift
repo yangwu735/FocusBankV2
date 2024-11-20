@@ -8,6 +8,8 @@
 import SwiftUI
 import SwiftData
 import FirebaseCore
+import FamilyControls
+import DeviceActivity
 
 struct DefaultView: View {
     @Environment(\.modelContext) private var modelContext
@@ -29,7 +31,7 @@ struct DefaultView: View {
         .padding()
         
     }
-
+    
     private func addItem() {
         withAnimation {
             let newItem = Item(timestamp: Date())
@@ -53,6 +55,7 @@ struct DefaultView: View {
         }
     }
 }
+
 
 #Preview {
     DefaultView()

@@ -1,13 +1,9 @@
-//
-//  FocusBankApp.swift
-//  FocusBank
-//
-//  Created by Luyang Wu on 11/12/24.
-//
-
 import SwiftUI
 import SwiftData
 import FirebaseCore
+import FamilyControls
+import DeviceActivity
+
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
@@ -19,10 +15,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct FocusBankApp: App {
-    // register app delegate for Firebase setup
-      @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    // Register app delegate for Firebase setup
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -39,7 +34,34 @@ struct FocusBankApp: App {
     var body: some Scene {
         WindowGroup {
             DefaultView()
+                .onAppear {
+                    Task {
+                        await requestScreenTimeAuthorization(for: FamilyControls.AuthorizationScope.individual)
+                        checkScreenTimeAuthorizationStatus()
+                    }
+                }
         }
         .modelContainer(sharedModelContainer)
+    }
+    
+    // Request Screen Time authorization for the current user
+    func requestScreenTimeAuthorization(for user: AuthorizationScope) async {
+        let authorizationCenter = AuthorizationCenter.shared
+        do {
+            try await authorizationCenter.requestAuthorization(for: user)
+            print("Screen Time authorization granted for \(user).")
+        } catch {
+            print("Failed to obtain Screen Time authorization: \(error)")
+        }
+    }
+    
+    // Check Screen Time authorization status
+    func checkScreenTimeAuthorizationStatus() {
+        let authorizationCenter = AuthorizationCenter.shared
+        if authorizationCenter.authorizationStatus == .approved {
+            print("Screen Time access is approved.")
+        } else {
+            print("Screen Time access not approved.")
+        }
     }
 }
