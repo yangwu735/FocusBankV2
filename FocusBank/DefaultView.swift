@@ -21,34 +21,74 @@ struct DefaultView: View {
     let db = Firestore.firestore()
 
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.small)
-                .foregroundColor(.accentColor)
-            Text("HI GUYS!!!")
-            Text(myText)
-            Button("Reset to 15 coins") {
-                Task {
-                    await resetCoinBalance()
+        ZStack {
+            Color(red: 0.09, green: 0.09, blue: 0.1)
+            .ignoresSafeArea()
+            VStack (alignment: .center) {
+                HStack() {
+                    Image("LongLogo_Wht")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 150, height: 100, alignment: .leading)
+//                        .background(Color.red)
+                        .padding(.trailing, 20)
+                    Button("Set to 15 coins") {
+                        Task {
+                            await resetCoinBalance()
+                        }
+                    }
+                    .aspectRatio(contentMode: .fit)
+                    .accentColor(Color.white)
+                    .frame(width: 125, height: 50, alignment: .center)
+                    .background(Color.gray)
+                    .cornerRadius(10)
+                    .padding(.leading, 100)
+                }
+                ZStack () {
+                    Text(myText)
+                        .accentColor(Color.white)
+                }
+                .frame(width: 400, height: 400)
+                .background(Color.red)
+                Button("Add 5 coins") {
+                    Task {
+                        await addTestCoins()
+                    }
+                }
+                .accentColor(Color.black)
+                .background(Color.green)
+                .frame(width: 400, height: 100)
+                HStack () {
+                    Button("Open Spotify") {
+                        openSpotify()
+                    }
+                    .accentColor(Color.white)
+                    .background(Color.green)
+                    .frame(width: 400, height: 100)
                 }
             }
-            .padding()
-            .accentColor(Color.black)
-            .background(Color.yellow)
-            .frame(width: 400, height: 200)
-            Button("Add 5 coins") {
-                Task {
-                    await addTestCoins()
-                }
-            }
-            .padding()
-            .accentColor(Color.black)
-            .background(Color.green)
-            .frame(width: 400, height: 200)
         }
         
-        
     }
+    
+    
+    private func openSpotify() {
+            if let spotifyURL = URL(string: "spotify://") {
+                if UIApplication.shared.canOpenURL(spotifyURL) {
+                    UIApplication.shared.open(spotifyURL, options: [:]) { success in
+                        if success {
+                            print("Spotify opened successfully.")
+                        } else {
+                            print("Failed to open Spotify.")
+                        }
+                    }
+                } else {
+                    print("Spotify is not installed or URL scheme not available.")
+                }
+            } else {
+                print("Invalid Spotify URL scheme.")
+            }
+        }
     
     private func resetCoinBalance() async {
         let docRef = db.collection("users").document(UIDevice.current.identifierForVendor!.uuidString)
@@ -75,8 +115,6 @@ struct DefaultView: View {
     }
     
     private func addTestCoins() async {
-        
-            
         do {
             let docRef = db.collection("users").document(UIDevice.current.identifierForVendor!.uuidString)
             if let documentData = try await docRef.getDocument().data(),
