@@ -14,7 +14,7 @@ import FamilyControls
 import LocalAuthentication
 import DeviceActivity
 import FamilyControls
-import SwiftUI
+import UIKit
 
 struct DefaultView: View {
     @Environment(\.modelContext) private var modelContext
@@ -24,7 +24,8 @@ struct DefaultView: View {
     @State var zoomed: Bool = false
     @State var loadingAnimation: Bool = false
     @State var loadingAnimation2: Bool = false
-    @State var checkAnimation: Bool = false
+    @State var checkCoinsAnimation: Bool = false
+    @State var isAnim = false
     @State var appCoins = [0,0,0]
     @State var audioPlayer: AVAudioPlayer?
     
@@ -57,10 +58,22 @@ struct DefaultView: View {
                             await addCoins(amount: 1)
                         }
                         updateC()
-                        playSound(file: "AddCoin")
-    //                .onAppear {
-    //                    checkAuthorizationStatus()
-    //                    checkBiometricSupport()
+                        withAnimation(Animation
+                            .linear(duration: 0.2)
+                        ) {
+                            isAnimated.toggle()
+                            isAnim = true
+                        } completion: {
+                            withAnimation(Animation
+                                .linear(duration: 0.1)
+                                .delay(0.8)
+                            ) {
+                                isAnimated.toggle()
+                                playSound(file: "AddCoin")
+                            } completion: {
+                                isAnim = false
+                            }
+                        }
                     }
                     .font(.system(size: 18))
                     .accentColor(Color.white)
@@ -74,13 +87,13 @@ struct DefaultView: View {
                         withAnimation(Animation
                                 .easeOut(duration: 0.5)
                         ) {
-                            checkAnimation.toggle()
+                            checkCoinsAnimation.toggle()
                         } completion: {
                             withAnimation(Animation
                                     .easeIn(duration: 0.5)
                                     .delay(1)
                             ) {
-                                checkAnimation.toggle()
+                                checkCoinsAnimation.toggle()
                             }
                         }
                     }) {
@@ -106,7 +119,17 @@ struct DefaultView: View {
                                 .opacity(0.2)
                                 .frame(width: 200, height: 70, alignment: .center)
                         )
-                        .opacity(checkAnimation ? 1.0 : 0.0)
+                        .opacity(checkCoinsAnimation ? 1.0 : 0.0)
+                    GIFView(gifName: "AddCoinAnim2", isAnimating: $isAnim)
+                        .frame(width: 400, height: 400)
+                        .background(
+                            Image("Bkgd")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 400, height: 400)
+                                .background(Color.black)
+                        )
+                        .opacity(isAnimated ? 1.0 : 0.0)
                 }
                 .frame(width: 400, height: 400)
                 HStack () {
@@ -391,23 +414,59 @@ struct DefaultView: View {
 struct NoPressEffectButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .opacity(configuration.isPressed ? 1.0 : 1.0) // No change in opacity
+            .opacity(configuration.isPressed ? 1.0 : 1.0)
     }
 }
 
+struct GIFView: UIViewRepresentable {
+    let gifName: String
+    @Binding var isAnimating: Bool
+
+    func makeUIView(context: Context) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.loadGif(name: gifName)
+        return imageView
+    }
+
+    func updateUIView(_ uiView: UIImageView, context: Context) {
+            if isAnimating {
+                uiView.startAnimating()
+            } else {
+                uiView.stopAnimating()
+            }
+        }
+}
+
+extension UIImageView {
+    func loadGif(name: String) {
+        guard let path = Bundle.main.path(forResource: name, ofType: "gif") else { return }
+        let url = URL(fileURLWithPath: path)
+        guard let gifData = try? Data(contentsOf: url) else { return }
+        
+        let source = CGImageSourceCreateWithData(gifData as CFData, nil)
+        var images = [UIImage]()
+        var duration: TimeInterval = 0
+
+        let count = CGImageSourceGetCount(source!)
+        for i in 0..<count {
+            if let cgImage = CGImageSourceCreateImageAtIndex(source!, i, nil) {
+                images.append(UIImage(cgImage: cgImage))
+            }
+
+            if let properties = CGImageSourceCopyPropertiesAtIndex(source!, i, nil) as? [CFString: Any],
+               let gifProperties = properties[kCGImagePropertyGIFDictionary] as? [CFString: Any],
+               let frameDuration = gifProperties[kCGImagePropertyGIFDelayTime] as? Double {
+                duration += frameDuration
+            }
+        }
+
+        self.animationImages = images
+        self.animationDuration = duration
+    }
+}
 
 #Preview {
     DefaultView()
         .modelContainer(for: Item.self, inMemory: true)
 }
-
-//do {
-//  let ref = try await db.collection("users").set(data: [
-//    "first": "Ada",
-//    "last": "Lovelace",
-//    "born": 1815
-//  ])
-//  print("Document added with ID: \(ref.documentID)")
-//} catch {
-//  print("Error adding document: \(error)")
-//}
