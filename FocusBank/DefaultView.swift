@@ -83,7 +83,7 @@ struct DefaultView: View {
                 }
                 ZStack () {
                     Button(action: {
-                        playSound(file: "TapHourglass")
+//                        playSound(file: "TapHourglass")
                         withAnimation(Animation
                                 .easeOut(duration: 0.5)
                         ) {
@@ -172,7 +172,7 @@ struct DefaultView: View {
                     }
                     VStack () {
                         Button(action: {
-                            if (appCoins[0] > 0) {
+                            if (appCoins[1] > 0) {
                                 openApp(link: "spotify://")
                             } else {
                                 playSound(file: "Error")
@@ -238,6 +238,7 @@ struct DefaultView: View {
                         updateC()
                         loadingAnimation = false
                         loadingAnimation2 = false
+                        playSound(file: "FBTitle")
                         withAnimation(Animation.linear(duration: 0.4).delay(3)) {
                             loadingAnimation.toggle()
                         } completion: {
@@ -253,24 +254,6 @@ struct DefaultView: View {
     
     private func openApp(link: String) {
             if let spotifyURL = URL(string: link) {
-                if UIApplication.shared.canOpenURL(spotifyURL) {
-                    UIApplication.shared.open(spotifyURL, options: [:]) { success in
-                        if success {
-                            print("Spotify opened successfully.")
-                        } else {
-                            print("Failed to open Spotify.")
-                        }
-                    }
-                } else {
-                    print("Spotify is not installed or URL scheme not available.")
-                }
-            } else {
-                print("Invalid Spotify URL scheme.")
-            }
-        }
-    
-    private func openIG() {
-            if let spotifyURL = URL(string: "instagram://") {
                 if UIApplication.shared.canOpenURL(spotifyURL) {
                     UIApplication.shared.open(spotifyURL, options: [:]) { success in
                         if success {
@@ -426,6 +409,7 @@ struct GIFView: UIViewRepresentable {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.loadGif(name: gifName)
+        imageView.startAnimating()
         return imageView
     }
 
