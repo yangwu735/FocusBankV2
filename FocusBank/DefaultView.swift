@@ -22,6 +22,8 @@ struct DefaultView: View {
     @State var myCoins = -1
     @State var isAnimated: Bool = false
     @State var zoomed: Bool = false
+    @State var loadingAnimation: Bool = false
+    @State var loadingAnimation2: Bool = false
     @State var audioPlayer: AVAudioPlayer?
     
    
@@ -36,13 +38,11 @@ struct DefaultView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 150, height: 100, alignment: .leading)
                         .padding(.trailing, 90)
-                        .onAppear {
-                            updateC()
-                        }
                     Button("Set to 0 coins") {
                         Task {
                             await resetCoinBalance()
                         }
+                        playSound(file: "ResetCoins")
                     }
                     .aspectRatio(contentMode: .fit)
                     .accentColor(Color.white)
@@ -81,22 +81,19 @@ struct DefaultView: View {
 //                        .frame(width:200, height: 200)
                 }
                 .frame(width: 400, height: 400)
-                Button("Add a coin") {
+                Button("") {
                     Task {
                         await addTestCoins()
                     }
-                    playCoinSound()
-//                    withAnimation(
-//                        Animation
-//                            .easeInOut(duration: 2.0)
-//                    ) {
-//                        isAnimated.toggle()
-//                    }
-                }
+                    playSound(file: "AddCoin")
 //                .onAppear {
 //                    checkAuthorizationStatus()
 //                    checkBiometricSupport()
-//                }
+                }
+                .overlay(
+                    Text("Add a coin")
+                        .font(.system(size: 14))
+                )
                 .accentColor(Color.white)
                 .frame(width: 125, height: 50, alignment: .center)
                 .background(Color.green)
@@ -110,11 +107,43 @@ struct DefaultView: View {
                     .frame(width: 400, height: 100)
                 }
             }
-            Rectangle()
-                .fill(Color.black)
-                .frame(width: 1000, height: 2000)
-                .ignoresSafeArea()
-                .opacity(isAnimated ? 1.0 : 0.0)
+            ZStack () {
+                Rectangle()
+                    .fill(Color.black)
+                    .opacity(loadingAnimation2 ? 0.0 : 1.0)
+                Rectangle()
+                    .fill(Color.black)
+                    .frame(width: 2000, height: 1000)
+                    .overlay(
+                        VStack () {
+                            Image("LongLogo_Wht")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 400, height: 180, alignment: .center)
+                            Text("Loading...")
+                                .padding(.top, 20)
+                                .font(.system(size: 30,
+                                              weight: .light
+                                             ))
+                                .kerning(4)
+                                .padding(.bottom, 60)
+                        }
+                        
+                    )
+                    .opacity(loadingAnimation ? 0.0 : 1.0)
+                    .onAppear {
+                        updateC()
+                        loadingAnimation = false
+                        loadingAnimation2 = false
+                        withAnimation(Animation.linear(duration: 0.4).delay(1.2)) {
+                            loadingAnimation.toggle()
+                        } completion: {
+                            withAnimation(Animation.linear(duration: 0.2).delay(0.2)) {
+                                loadingAnimation2.toggle()
+                            }
+                        }
+                    }
+            }
         }
     }
     
@@ -240,8 +269,8 @@ struct DefaultView: View {
         }
     }
     
-    private func playCoinSound() {
-        guard let soundURL = Bundle.main.url(forResource: "CoinSFX", withExtension: "mp3") else {
+    private func playSound(file: String) {
+        guard let soundURL = Bundle.main.url(forResource: file, withExtension: "mp3") else {
             print("Sound file not found!")
             return
         }

@@ -11,7 +11,6 @@
 		2F169CA82CE44A8B00A60E76 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 2F169CA72CE44A8B00A60E76 /* FirebaseAppDistribution-Beta */; };
 		2F2733B02CF4310400B4A4F3 /* FLAnimatedImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2F2733AF2CF4310400B4A4F3 /* FLAnimatedImage */; };
 		2F2733B32CF4317800B4A4F3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2F2733B22CF4317800B4A4F3 /* SDWebImageSwiftUI */; };
-		2F2733B52CF4846F00B4A4F3 /* CoinSFX.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F2733B42CF4846F00B4A4F3 /* CoinSFX.mp3 */; };
 		2FF8D86E2CED6775006E8674 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF8D86D2CED6775006E8674 /* AuthenticationServices.framework */; };
 		2FF8D8702CED72BF006E8674 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 2FF8D86F2CED72BF006E8674 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		2FF8D8722CED72D6006E8674 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2FF8D8712CED72D6006E8674 /* FirebaseAuth */; };
@@ -58,7 +57,6 @@
 		2F169C682CE4393700A60E76 /* FocusBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F169C7C2CE4393A00A60E76 /* FocusBankTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusBankTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F169C862CE4393A00A60E76 /* FocusBankUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusBankUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F2733B42CF4846F00B4A4F3 /* CoinSFX.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CoinSFX.mp3; sourceTree = "<group>"; };
 		2FF8D86D2CED6775006E8674 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/AuthenticationServices.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -81,14 +79,9 @@
 			path = FocusBank;
 			sourceTree = "<group>";
 		};
-		2F169C7F2CE4393A00A60E76 /* FocusBankTests */ = {
+		2F2733CE2CF545A400B4A4F3 /* Sounds */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FocusBankTests;
-			sourceTree = "<group>";
-		};
-		2F169C892CE4393A00A60E76 /* FocusBankUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FocusBankUITests;
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -148,10 +141,8 @@
 		2F169C5F2CE4393700A60E76 = {
 			isa = PBXGroup;
 			children = (
-				2F2733B42CF4846F00B4A4F3 /* CoinSFX.mp3 */,
+				2F2733CE2CF545A400B4A4F3 /* Sounds */,
 				2F169C6A2CE4393700A60E76 /* FocusBank */,
-				2F169C7F2CE4393A00A60E76 /* FocusBankTests */,
-				2F169C892CE4393A00A60E76 /* FocusBankUITests */,
 				2FF8D86C2CED6774006E8674 /* Frameworks */,
 				2F169C692CE4393700A60E76 /* Products */,
 			);
@@ -192,6 +183,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				2F169C6A2CE4393700A60E76 /* FocusBank */,
+				2F2733CE2CF545A400B4A4F3 /* Sounds */,
 			);
 			name = FocusBank;
 			packageProductDependencies = (
@@ -239,9 +231,6 @@
 			dependencies = (
 				2F169C7E2CE4393A00A60E76 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				2F169C7F2CE4393A00A60E76 /* FocusBankTests */,
-			);
 			name = FocusBankTests;
 			packageProductDependencies = (
 			);
@@ -261,9 +250,6 @@
 			);
 			dependencies = (
 				2F169C882CE4393A00A60E76 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				2F169C892CE4393A00A60E76 /* FocusBankUITests */,
 			);
 			name = FocusBankUITests;
 			packageProductDependencies = (
@@ -326,7 +312,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F2733B52CF4846F00B4A4F3 /* CoinSFX.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
